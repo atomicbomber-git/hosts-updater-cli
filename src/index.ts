@@ -12,7 +12,12 @@ function trimTrailingSlash(text: string): string {
     return text?.replace(/\/*$/ui, '');
 }
 
-const serverUrl = process.env.SERVER_URL
+if (typeof process.env.SERVER_URL === "undefined") {
+    console.error("The SERVER_URL environment variable hasn't been set.")
+    process.exit(1)
+}
+
+const serverUrl = trimTrailingSlash(process.env.SERVER_URL)
 
 if (process.platform !== "linux") {
     console.error(`This program can only be run on Linux systems for now. Your current OS is ${process.platform}.`)
